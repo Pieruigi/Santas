@@ -106,7 +106,7 @@ namespace com.ar.santas
             }
 
 
-            // Check free or tactics mode           
+            // Switch from free to tactics camera           
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 
@@ -191,13 +191,13 @@ namespace com.ar.santas
             }
 
             // Move up and down
-            if (Input.GetAxis("Height") != 0 && mode == CameraMode.Free)
+            if (Input.GetAxis("Height") != 0)// && mode == CameraMode.Free)
             {
                 Vector3 dir = Vector3.up;
         
                 // Move
                 //transform.position += dir * Input.GetAxis("Height") * moveSpeed * Time.deltaTime;
-                moveDisp += dir * Input.GetAxis("Height") * moveSpeed * Time.deltaTime;
+                moveDisp += dir * Input.GetAxis("Height") * -moveSpeed * Time.deltaTime;
             }
 
             // Compute target position

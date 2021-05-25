@@ -276,6 +276,9 @@ namespace com.ar.santas
             selectedSanta.GetComponent<Santa>().AddDestination(destination);
         }
 
+        /// <summary>
+        /// Setting horizontal path
+        /// </summary>
         void SetHorizontal()
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -300,6 +303,9 @@ namespace com.ar.santas
             }
         }
 
+        /// <summary>
+        /// Set vertical path
+        /// </summary>
         void SetVertical()
         {
             float v = Input.GetAxis("Mouse Y");

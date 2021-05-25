@@ -16,9 +16,11 @@ namespace com.ar.santas
         float attackRange = 2;
         float sqrDetectionRange;
         float sqrAttackRange;
+        float rotSpeed = 10f;
 
         List<GameObject> santas;
         GameObject engagedSanta;
+
 
         private void Awake()
         {
@@ -89,6 +91,10 @@ namespace com.ar.santas
 
             // Move to destination
             transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
+
+            // Adjust fwd
+            Vector3 targetFwd = (destination - transform.position).normalized;
+            transform.forward = Vector3.MoveTowards(transform.forward, targetFwd, rotSpeed * Time.deltaTime);
         }
 
         void SetDestination(Vector3 destination)

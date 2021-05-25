@@ -14,7 +14,8 @@ namespace com.ar.santas
         public UnityAction<Santa, Gift> OnGiftCollected;
         public UnityAction<Santa> OnDestroying;
         
-        float speed = 1;
+        float speed = 2;
+        float giftPenalty = 0.2f;
 
         List<Vector3> destinations = new List<Vector3>();
         Vector3 currentDestination;
@@ -26,6 +27,8 @@ namespace com.ar.santas
         {
             get { return gifts; }
         }
+
+        float rotSpeed = 10f;
 
         // Start is called before the first frame update
         void Start()
@@ -52,6 +55,10 @@ namespace com.ar.santas
             {
                 // Santa is doing something
                 Move();
+
+                // Adjust fwd
+                Vector3 targetFwd = (currentDestination - transform.position).normalized;
+                transform.forward = Vector3.MoveTowards(transform.forward, targetFwd, rotSpeed * Time.deltaTime);
             }
 
             
@@ -124,15 +131,15 @@ namespace com.ar.santas
 
         void Move()
         {
-      
-                transform.position = Vector3.MoveTowards(transform.position, currentDestination, speed * Time.deltaTime);
+            float actualSpeed = speed - gifts.Count * giftPenalty;
+            transform.position = Vector3.MoveTowards(transform.position, currentDestination, actualSpeed * Time.deltaTime);
 
-                if ((transform.position - currentDestination).sqrMagnitude < Mathf.Epsilon)
-                {
-                    Debug.Log("Distination reached:" + transform.position);
+            if ((transform.position - currentDestination).sqrMagnitude < Mathf.Epsilon)
+            {
+                Debug.Log("Distination reached:" + transform.position);
                     
-                    hasDestination = false;
-                }
+                hasDestination = false;
+            }
                 
         }
     }
