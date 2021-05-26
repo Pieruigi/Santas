@@ -17,12 +17,24 @@ namespace com.ar.santas
         [SerializeField]
         GameObject boundHelper;
 
+        [SerializeField]
+        float timeLimit = 150f;
+        public float TimeLimit
+        {
+            get { return timeLimit; }
+        }
+
+        [SerializeField]
+        int minimumGitfs = 10;
+
         Vector3 minBounds;
         Vector3 maxBounds;
 
         BoxCollider boundsColl;
         List<Santa> santas;
         List<Gift> gifts;
+
+        int deliveredCount = 0;
 
         int levelId;
 
@@ -60,7 +72,19 @@ namespace com.ar.santas
         // Update is called once per frame
         void Update()
         {
-        
+            timeLimit -= Time.deltaTime;
+
+            if(timeLimit < 0)
+            {
+                if(deliveredCount >= minimumGitfs)
+                {
+                    Win();
+                }
+                else
+                {
+                    OnPlayerLoses?.Invoke();
+                }
+            }
         }
 
         public Bounds GetBounds()
@@ -85,13 +109,21 @@ namespace com.ar.santas
             // Remove gift from list
             gifts.Remove(gift);
 
+            // Update counter
+            deliveredCount++;
+
             // If no gifts are left then you win
             if(gifts.Count == 0)
             {
                 Debug.Log("You win");
-                ProgressManager.Instance.TryUpdateProgress(levelId);
-                OnPlayerWins?.Invoke();
+                Win();
             }
+        }
+
+        void Win()
+        {
+            ProgressManager.Instance.TryUpdateProgress(levelId);
+            OnPlayerWins?.Invoke();
         }
     }
 }

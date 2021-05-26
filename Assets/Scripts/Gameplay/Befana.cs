@@ -80,6 +80,8 @@ namespace com.ar.santas
                     santas.Remove(engagedSanta);
                     Destroy(engagedSanta);
                     engagedSanta = null;
+                    // We must remove the befana too
+                    Destroy(gameObject);
                 }
                 else
                 {
